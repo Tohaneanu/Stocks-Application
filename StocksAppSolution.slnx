@@ -1,5 +1,7 @@
 <Solution>
+  <Project Path="Entities/StocksApp.Entities.csproj" Id="39ebdc89-783d-49ea-9c38-48f0e063e9d0" />
   <Project Path="StocksApp.ServiceContracts/StocksApp.ServiceContracts.csproj" />
   <Project Path="StocksApp.Services/StocksApp.Services.csproj" />
+  <Project Path="StocksApp.Tests/StocksApp.Tests.csproj" Id="11f11a76-ef93-41de-92f2-7bf04b3a5aa5" />
   <Project Path="StocksApp/StocksApp.UI.csproj" />
 </Solution>
