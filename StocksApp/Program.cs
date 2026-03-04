@@ -34,11 +34,11 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/Trade/Index");
+    return Task.CompletedTask;
+});
+app.MapControllers();
 
 app.Run();
