@@ -11,13 +11,15 @@ namespace StocksApp.Controllers
     {
         private readonly TradingOptions _tradingOptions;
         private readonly IFinnhubService _finnhubService;
+        private readonly IStocksService _stocksService;
         private readonly IConfiguration _configuration;
 
-        public TradeController(IOptions<TradingOptions> tradingOptions, IFinnhubService finnhubService, IConfiguration configuration)
+        public TradeController(IOptions<TradingOptions> tradingOptions, IFinnhubService finnhubService, IConfiguration configuration, IStocksService stocksService)
         {
             _tradingOptions = tradingOptions.Value;
             _finnhubService = finnhubService;
             _configuration = configuration;
+            _stocksService = stocksService;
         }
 
         [Route("/")]
