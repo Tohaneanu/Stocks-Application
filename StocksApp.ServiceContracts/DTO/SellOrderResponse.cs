@@ -2,7 +2,7 @@
 
 namespace StocksApp.ServiceContracts.DTO
 {
-    public class SellOrderResponse
+    public class SellOrderResponse: IOrderResponse
     {
         public Guid SellOrderId { get; set; }
         public required string StockSymbol { get; set; }
@@ -10,6 +10,7 @@ namespace StocksApp.ServiceContracts.DTO
         public DateTime DateTimeOfOrder { get; set; }
         public uint Quantity { get; set; }
         public double Price { get; set; }
+        public OrderType TypeOfOrder => OrderType.SellOrder;
         public double TradeAmount { get; set; }
         public override bool Equals(object? obj)
         {
