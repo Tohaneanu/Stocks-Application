@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using StocksApp.Entities;
 using StocksApp.ServiceContracts;
 using StocksApp.Services;
 using StocksApp.UI;
@@ -7,8 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<TradingOptions>(builder.Configuration.GetSection("TradingOptions"));
-builder.Services.AddSingleton<IFinnhubService, FinnhubService>();
-builder.Services.AddSingleton<IStocksService, StocksService>();
+builder.Services.AddTransient<IFinnhubService, FinnhubService>();
+builder.Services.AddTransient<IStocksService, StocksService>();
+builder.Services.AddDbContext<StockMarketDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
 builder.Services.AddHttpClient("Finnhub", client =>
 {
     client.BaseAddress = new Uri("https://finnhub.io/api/v1/");
@@ -32,7 +39,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
-
+Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
 app.MapStaticAssets();
 app.MapGet("/", context =>
 {
