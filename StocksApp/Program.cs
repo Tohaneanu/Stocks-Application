@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using StockApp.Repositories;
 using StockApp.RepositoryContracts;
 using StocksApp.Entities;
@@ -7,6 +8,14 @@ using StocksApp.Services;
 using StocksApp.UI;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Serilog
+builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services, LoggerConfiguration loggerConfiguration) => {
+
+    loggerConfiguration
+    .ReadFrom.Configuration(context.Configuration) //read configuration settings from built-in IConfiguration
+    .ReadFrom.Services(services); //read out current app's services and make them available to serilog
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -21,6 +30,11 @@ builder.Services.AddDbContext<StockMarketDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddHttpLogging(options =>
+{
+    options.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestProperties | Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponsePropertiesAndHeaders;
+});
+
 builder.Services.AddHttpClient("Finnhub", client =>
 {
     client.BaseAddress = new Uri("https://finnhub.io/api/v1/");
@@ -28,6 +42,8 @@ builder.Services.AddHttpClient("Finnhub", client =>
 
 
 var app = builder.Build();
+
+app.UseSerilogRequestLogging();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
