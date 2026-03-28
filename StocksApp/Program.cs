@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using StockApp.Repositories;
+using StockApp.RepositoryContracts;
 using StocksApp.Entities;
 using StocksApp.ServiceContracts;
 using StocksApp.Services;
@@ -11,6 +13,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.Configure<TradingOptions>(builder.Configuration.GetSection("TradingOptions"));
 builder.Services.AddTransient<IFinnhubService, FinnhubService>();
 builder.Services.AddTransient<IStocksService, StocksService>();
+builder.Services.AddTransient<IStocksRepository, StocksRepository>();
+builder.Services.AddTransient<IFinnhubRepository, FinnhubRepository>();
+
 builder.Services.AddDbContext<StockMarketDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -39,7 +44,10 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
-Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
+if (!builder.Environment.IsEnvironment("Test"))
+{
+    Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
+}
 app.MapStaticAssets();
 app.MapGet("/", context =>
 {
@@ -49,3 +57,5 @@ app.MapGet("/", context =>
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

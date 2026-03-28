@@ -1,60 +1,38 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Text.Json;
-using StocksApp.ServiceContracts;
+﻿using StocksApp.ServiceContracts;
+using StockApp.RepositoryContracts;
 
 namespace StocksApp.Services
 {
     public class FinnhubService : IFinnhubService
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IConfiguration _configuration;
+        private readonly IFinnhubRepository _finnhubRepository;
 
-        public FinnhubService(IHttpClientFactory httpClientFactory,
-                              IConfiguration configuration)
+        public FinnhubService(IFinnhubRepository finnhubRepository)
         {
-            _httpClientFactory = httpClientFactory;
-            _configuration = configuration;
+            _finnhubRepository = finnhubRepository;
         }
 
-        public Task<Dictionary<string, object>?> GetCompanyProfile(string stockSymbol)
+        public async Task<Dictionary<string, object>?> GetCompanyProfile(string stockSymbol)
         {
-            return SendRequestAsync($"stock/profile2?symbol={stockSymbol}");
+            Dictionary<string, object>? responseDictionary = await _finnhubRepository.GetCompanyProfile(stockSymbol);
+            return responseDictionary;
         }
 
-        public Task<Dictionary<string, object>?> GetStockPriceQuote(string stockSymbol)
+        public async Task<Dictionary<string, object>?> GetStockPriceQuote(string stockSymbol)
         {
-            return SendRequestAsync($"quote?symbol={stockSymbol}");
+            Dictionary<string, object>? responseDictionary = await _finnhubRepository.GetStockPriceQuote(stockSymbol);
+            return responseDictionary;
         }
 
-
-        private async Task<Dictionary<string, object>?> SendRequestAsync(string endpoint)
+        public async Task<List<Dictionary<string, string>>?> GetStocks()
         {
-            string? token = _configuration["StockApiKey"];
+            List<Dictionary<string, string>>? responseDictionary = await _finnhubRepository.GetStocks();
+            return responseDictionary;
+        }
 
-            if (string.IsNullOrWhiteSpace(token))
-                throw new InvalidOperationException("Finnhub token is not configured.");
-
-            HttpClient client = _httpClientFactory.CreateClient("Finnhub");
-
-            HttpResponseMessage response =
-                await client.GetAsync($"{endpoint}&token={token}");
-
-            if (!response.IsSuccessStatusCode)
-                throw new InvalidOperationException(
-                    $"Finnhub API error: {response.StatusCode}");
-
-            string responseBody = await response.Content.ReadAsStringAsync();
-
-            var responseDictionary =
-                JsonSerializer.Deserialize<Dictionary<string, object>>(responseBody);
-
-            if (responseDictionary == null)
-                throw new InvalidOperationException("No response from server.");
-
-            if (responseDictionary.ContainsKey("error"))
-                throw new InvalidOperationException(
-                    Convert.ToString(responseDictionary["error"]));
-
+        public async Task<Dictionary<string, object>?> SearchStocks(string stockSymbolToSearch)
+        {
+            Dictionary<string, object>? responseDictionary = await _finnhubRepository.SearchStocks(stockSymbolToSearch);
             return responseDictionary;
         }
     }
