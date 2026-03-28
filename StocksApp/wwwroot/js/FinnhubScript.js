@@ -1,57 +1,103 @@
-﻿//Create a WebSocket to perform duplex (back-and-forth) communication with server
+﻿////Create a WebSocket to perform duplex (back-and-forth) communication with server
+//const token = document.querySelector("#FinnhubToken").value;
+//const socket = new WebSocket(`wss://ws.finnhub.io?token=${token}`);
+//var stockSymbol = document.getElementById("StockSymbol").value; //get symbol from input hidden
+//var counter = 0;
+
+//// Connection opened. Subscribe to a symbol
+//socket.addEventListener('open', function (event) {
+//    socket.send(JSON.stringify({ 'type': 'subscribe', 'symbol': stockSymbol }))
+//});
+
+//// Listen (ready to receive) for messages
+//socket.addEventListener('message', function (event) {
+
+//    //if error message is received from server
+//    if (event.data.type == "error") {
+//        $(".price").text(event.data.msg);
+//        return; //exit the function
+//    }
+
+//    //data received from server
+//    //console.log('Message from server ', event.data);
+
+//    /* Sample response:
+//    {"data":[{"p":220.89,"s":"MSFT","t":1575526691134,"v":100}],"type":"trade"}
+//    type: message type
+//    data: [ list of trades ]
+//    s: symbol of the company
+//    p: Last price
+//    t: UNIX milliseconds timestamp
+//    v: volume (number of orders)
+//    c: trade conditions (if any)
+//    */
+
+//    var eventData = JSON.parse(event.data);
+//    if (eventData) {
+//        if (eventData.data) {
+//            //get the updated price
+//            var updatedPrice = JSON.parse(event.data).data[0].p;
+//            var timeStamp = JSON.parse(event.data).data[0].t;
+//            //console.log(updatedPrice, timeStamp);
+//            //console.log(new Date(timeStamp).toLocaleTimeString());
+
+//            //update the chart for every 6 server events
+//            if (counter == 0 || counter % 6 == 0) {
+//                //add price to prices array to reflect the same in chart
+//                prices.push(updatedPrice);
+
+//                //add time to labels array to reflect the same in chart
+//                var timeStampDate = new Date(timeStamp);
+//                labels.push(timeStampDate.toLocaleTimeString());
+//                chart.update();
+//            }
+//            counter++;
+
+//            //update the UI
+//            $(".price").text(updatedPrice.toFixed(2)); //price - big display
+//            $("#price").val(updatedPrice.toFixed(2)); //price - input hidden
+//        }
+//    }
+//});
+
+//// Unsubscribe
+//var unsubscribe = function (symbol) {
+//    //disconnect from server
+//    socket.send(JSON.stringify({ 'type': 'unsubscribe', 'symbol': symbol }))
+//}
+
+////when the page is being closed, unsubscribe from the WebSocket
+//window.onunload = function () {
+//    unsubscribe(stockSymbol);
+//};
 const token = document.querySelector("#FinnhubToken").value;
-const socket = new WebSocket(`wss://ws.finnhub.io?token=${token}`);
-var stockSymbol = document.getElementById("StockSymbol").value; //get symbol from input hidden
+const stockSymbol = document.getElementById("StockSymbol").value;
 
-// Connection opened. Subscribe to a symbol
-socket.addEventListener('open', function (event) {
-    socket.send(JSON.stringify({ 'type': 'subscribe', 'symbol': stockSymbol }))
-});
+async function updatePrice() {
+    try {
+        const response = await fetch(
+            `https://finnhub.io/api/v1/quote?symbol=${stockSymbol}&token=${token}`
+        );
+        const data = await response.json();
 
-// Listen (ready to receive) for messages
-socket.addEventListener('message', function (event) {
+        if (data && data.c) {
+            const updatedPrice = data.c;
 
-    //if error message is received from server
-    if (event.data.type == "error") {
-        $(".price").text(event.data.msg);
-        return; //exit the function
-    }
+            // Actualizează UI
+            document.querySelector(".price").textContent = updatedPrice.toFixed(2);
+            document.getElementById("price").value = updatedPrice.toFixed(2);
 
-    //data received from server
-    //console.log('Message from server ', event.data);
-
-    /* Sample response:
-    {"data":[{"p":220.89,"s":"MSFT","t":1575526691134,"v":100}],"type":"trade"}
-    type: message type
-    data: [ list of trades ]
-    s: symbol of the company
-    p: Last price
-    t: UNIX milliseconds timestamp
-    v: volume (number of orders)
-    c: trade conditions (if any)
-    */
-
-    var eventData = JSON.parse(event.data);
-    if (eventData) {
-        if (eventData.data) {
-            //get the updated price
-            var updatedPrice = JSON.parse(event.data).data[0].p;
-            //console.log(updatedPrice);
-
-            //update the UI
-            $(".price").text(updatedPrice.toFixed(2)); //price - big display
+            // Actualizează chart-ul
+            prices.push(updatedPrice);
+            var now = new Date();
+            labels.push(now.toLocaleTimeString());
+            chart.update();
         }
+    } catch (err) {
+        console.error("Eroare la fetch price:", err);
     }
-});
-
-// Unsubscribe
-var unsubscribe = function (symbol) {
-    //disconnect from server
-    socket.send(JSON.stringify({ 'type': 'unsubscribe', 'symbol': symbol }))
-    socket.close();
 }
 
-//when the page is being closed, unsubscribe from the WebSocket
-window.onunload = function () {
-    unsubscribe(stockSymbol);
-};
+// Actualizare la fiecare 5 secunde
+updatePrice(); // primul apel imediat
+setInterval(updatePrice, 5000);

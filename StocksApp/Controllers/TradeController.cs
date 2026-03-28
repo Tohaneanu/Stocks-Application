@@ -8,7 +8,7 @@ using StocksApp.UI.Models;
 
 namespace StocksApp.Controllers
 {
-    [Route("[controller]/[action]")]
+    [Route("[controller]")]
     public class TradeController : Controller
     {
         private readonly TradingOptions _tradingOptions;
@@ -24,22 +24,24 @@ namespace StocksApp.Controllers
             _stocksService = stocksService;
         }
 
-        public async Task<IActionResult> Index()
+        [Route("[action]/{stockSymbol?}")]
+        [Route("~/[controller]/{stockSymbol?}")]
+        public async Task<IActionResult> Index(string stockSymbol)
         {
             //reset stock symbol if not exists
-            if (string.IsNullOrEmpty(_tradingOptions.DefaultStockSymbol))
-                _tradingOptions.DefaultStockSymbol = "MSFT";
+            if (string.IsNullOrEmpty(stockSymbol))
+                stockSymbol = "MSFT";
 
 
             //get company profile from API server
-            Dictionary<string, object>? companyProfileDictionary = await _finnhubService.GetCompanyProfile(_tradingOptions.DefaultStockSymbol);
+            Dictionary<string, object>? companyProfileDictionary = await _finnhubService.GetCompanyProfile(stockSymbol);
 
             //get stock price quotes from API server
-            Dictionary<string, object>? stockQuoteDictionary = await _finnhubService.GetStockPriceQuote(_tradingOptions.DefaultStockSymbol);
+            Dictionary<string, object>? stockQuoteDictionary = await _finnhubService.GetStockPriceQuote(stockSymbol);
 
 
             //create model object
-            StockTrade stockTrade = new StockTrade() { StockSymbol = _tradingOptions.DefaultStockSymbol };
+            StockTrade stockTrade = new StockTrade() { StockSymbol = stockSymbol };
 
             //load data from finnHubService into model object
             if (companyProfileDictionary != null && stockQuoteDictionary != null)
@@ -48,6 +50,7 @@ namespace StocksApp.Controllers
                 {
                     StockSymbol = Convert.ToString(companyProfileDictionary["ticker"]),
                     StockName = Convert.ToString(companyProfileDictionary["name"]),
+                    Quantity = _tradingOptions.DefaultOrderQuantity ?? 0,
                     Price = Convert.ToDouble(stockQuoteDictionary["c"].ToString())
                 };
             }
@@ -58,6 +61,7 @@ namespace StocksApp.Controllers
             return View(stockTrade);
         }
 
+        [Route("[action]")]
         public async Task<IActionResult> Orders()
         {
             List<BuyOrderResponse> buyOrderResponses = await _stocksService.GetBuyOrders();
@@ -66,6 +70,7 @@ namespace StocksApp.Controllers
             return View(new Orders { BuyOrders = buyOrderResponses, SellOrders = sellOrderResponses });
         }
 
+        [Route("[action]")]
         [HttpPost]
         public async Task<IActionResult> SellOrder(SellOrderRequest sellOrderRequest)
         {
@@ -89,6 +94,7 @@ namespace StocksApp.Controllers
             return RedirectToAction(nameof(Orders));
         }
 
+        [Route("[action]")]
         [HttpPost]
         public async Task<IActionResult> BuyOrder(BuyOrderRequest buyOrderRequest)
         {
@@ -113,6 +119,7 @@ namespace StocksApp.Controllers
             return RedirectToAction(nameof(Orders));
         }
 
+        [Route("OrdersPDF")]
         [HttpGet]
         public async Task<IActionResult> OrdersPDF()
         {
