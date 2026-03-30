@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StocksApp.ServiceContracts.DTO
 {
-    public class SellOrderRequest : IValidatableObject
+    public class SellOrderRequest : IValidatableObject, IOrderRequest
     {
         [Required(ErrorMessage = "Stock Symbol can't be null or empty")]
         public required string StockSymbol { get; set; }

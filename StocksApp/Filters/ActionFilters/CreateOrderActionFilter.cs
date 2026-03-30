@@ -17,7 +17,7 @@ namespace StocksApp.UI.Filters.ActionFilters
 
             if (context.Controller is TradeController tradeController)
             {
-                var orderRequest = context.ActionArguments["orderRequest"] as IOrderRequest;
+                var orderRequest = context.ActionArguments.Values.FirstOrDefault() as IOrderRequest;
 
                 if (orderRequest != null)
                 {
