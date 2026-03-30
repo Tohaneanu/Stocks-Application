@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Entities/StocksApp.Entities.csproj" Id="39ebdc89-783d-49ea-9c38-48f0e063e9d0" />
+  <Project Path="Exceptions/StocksApp.Exceptions.csproj" Id="bf755102-9030-4c9a-9286-76d0ea1c62bb" />
   <Project Path="StockApp.Repositories/StockApp.Repositories.csproj" Id="01109915-e807-492f-94f3-d60a1eeb2c72" />
   <Project Path="StockApp.RepositoryContracts/StockApp.RepositoryContracts.csproj" Id="af2715b9-1fc9-4069-a574-b5b2fc963706" />
   <Project Path="StocksApp.ServiceContracts/StocksApp.ServiceContracts.csproj" />
