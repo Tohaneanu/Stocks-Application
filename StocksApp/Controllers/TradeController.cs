@@ -4,6 +4,7 @@ using Rotativa.AspNetCore;
 using StocksApp.ServiceContracts;
 using StocksApp.ServiceContracts.DTO;
 using StocksApp.UI;
+using StocksApp.UI.Filters.ActionFilters;
 using StocksApp.UI.Models;
 
 namespace StocksApp.Controllers
@@ -76,22 +77,9 @@ namespace StocksApp.Controllers
 
         [Route("[action]")]
         [HttpPost]
+        [TypeFilter(typeof(CreateOrderActionFilter))]
         public async Task<IActionResult> SellOrder(SellOrderRequest sellOrderRequest)
         {
-            //update date of order
-            sellOrderRequest.DateTimeOfOrder = DateTime.Now;
-
-            //re-validate the model object after updating the date
-            ModelState.Clear();
-            TryValidateModel(sellOrderRequest);
-
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                StockTrade stockTrade = new StockTrade() { StockName = sellOrderRequest.StockName, Quantity = sellOrderRequest.Quantity, StockSymbol = sellOrderRequest.StockSymbol };
-                return View("Index", stockTrade);
-            }
-
             //invoke service method
             SellOrderResponse sellOrderResponse = await _stocksService.CreateSellOrder(sellOrderRequest);
 
@@ -100,23 +88,9 @@ namespace StocksApp.Controllers
 
         [Route("[action]")]
         [HttpPost]
+        [TypeFilter(typeof(CreateOrderActionFilter))]
         public async Task<IActionResult> BuyOrder(BuyOrderRequest buyOrderRequest)
         {
-            //update date of order
-            buyOrderRequest.DateTimeOfOrder = DateTime.Now;
-
-            //re-validate the model object after updating the date
-            ModelState.Clear();
-            TryValidateModel(buyOrderRequest);
-
-
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                StockTrade stockTrade = new StockTrade() { StockName = buyOrderRequest.StockName, Quantity = buyOrderRequest.Quantity, StockSymbol = buyOrderRequest.StockSymbol };
-                return View("Index", stockTrade);
-            }
-
             //invoke service method
             BuyOrderResponse buyOrderResponse = await _stocksService.CreateBuyOrder(buyOrderRequest);
 
