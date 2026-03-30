@@ -6,6 +6,7 @@ using StocksApp.Entities;
 using StocksApp.ServiceContracts;
 using StocksApp.Services;
 using StocksApp.UI;
+using StocksApp.UI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,7 +40,7 @@ builder.Services.AddHttpClient("Finnhub", client =>
 {
     client.BaseAddress = new Uri("https://finnhub.io/api/v1/");
 });
-
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 var app = builder.Build();
 
@@ -48,12 +49,14 @@ app.UseSerilogRequestLogging();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Error");
+    app.UseMiddleware<ExceptionHandlingMiddleware>();
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 if (builder.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     builder.Configuration.AddUserSecrets<Program>();
 }
 app.UseHttpsRedirection();
