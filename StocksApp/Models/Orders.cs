@@ -1,6 +1,6 @@
-﻿using StocksApp.ServiceContracts.DTO;
+﻿using Stocks.Core.DTO;
 
-namespace StocksApp.UI.Models
+namespace Stocks.Web.Models
 {
     public class Orders
     {

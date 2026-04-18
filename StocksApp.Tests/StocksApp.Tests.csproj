@@ -20,11 +20,8 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Entities\StocksApp.Entities.csproj" />
-    <ProjectReference Include="..\StocksApp.ServiceContracts\StocksApp.ServiceContracts.csproj" />  
-	<ProjectReference Include="..\StocksApp.Services\StocksApp.Services.csproj" />  
-	<ProjectReference Include="..\StocksApp\StocksApp.UI.csproj" />
+  <ItemGroup>  
+	<ProjectReference Include="..\StocksApp\Stocks.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>

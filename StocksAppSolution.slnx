@@ -1,12 +1,8 @@
 <Solution>
-  <Project Path="Entities/StocksApp.Entities.csproj" Id="39ebdc89-783d-49ea-9c38-48f0e063e9d0" />
-  <Project Path="Exceptions/StocksApp.Exceptions.csproj" Id="bf755102-9030-4c9a-9286-76d0ea1c62bb" />
-  <Project Path="StockApp.Repositories/StockApp.Repositories.csproj" Id="01109915-e807-492f-94f3-d60a1eeb2c72" />
-  <Project Path="StockApp.RepositoryContracts/StockApp.RepositoryContracts.csproj" Id="af2715b9-1fc9-4069-a574-b5b2fc963706" />
-  <Project Path="StocksApp.ServiceContracts/StocksApp.ServiceContracts.csproj" />
-  <Project Path="StocksApp.Services/StocksApp.Services.csproj" />
-  <Project Path="StocksApp.Tests/StocksApp.Tests.csproj" Id="11f11a76-ef93-41de-92f2-7bf04b3a5aa5">
-    <Build Solution="Debug|*" Project="false" />
-  </Project>
-  <Project Path="StocksApp/StocksApp.UI.csproj" />
+  <Project Path="Stocks.Controller.Tests/Stocks.Controller.Tests.csproj" Id="24d61006-b23e-4420-854d-fa38bf3edbe6" />
+  <Project Path="Stocks.Core/Stocks.Core.csproj" Id="c085f8d4-79d6-49e8-9b15-27af11198f21" />
+  <Project Path="Stocks.Infrastructure/Stocks.Infrastructure.csproj" Id="dab79173-16f3-40e6-a791-4f86aaf53db9" />
+  <Project Path="Stocks.Integration.Tests/Stocks.Integration.Tests.csproj" Id="9af2adfc-eabe-4d7c-ad63-c0a6b9ca02c6" />
+  <Project Path="Stocks.Services.Tests/Stocks.Services.Tests.csproj" Id="82d670ec-ab71-4c11-9175-3d4c019ca9e6" />
+  <Project Path="StocksApp/Stocks.Web.csproj" />
 </Solution>

@@ -1,7 +1,7 @@
-﻿using StocksApp.Entities;
+﻿using Stocks.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace StocksApp.ServiceContracts.DTO
+namespace Stocks.Core.DTO
 {
     public class BuyOrderRequest : IValidatableObject, IOrderRequest
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using StocksApp.ServiceContracts.FinnhubService;
-using StocksApp.ServiceContracts.StocksService;
+using Stocks.Core.ServiceContracts.FinnhubService;
+using Stocks.Core.ServiceContracts.StocksService;
 
-namespace StocksApp.UI.ViewComponents
+
+namespace Stocks.Web.ViewComponents
 {
     public class SelectedStockViewComponent : ViewComponent
     {

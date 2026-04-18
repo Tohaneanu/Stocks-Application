@@ -1,4 +1,4 @@
-namespace StocksApp.UI.Models
+namespace Stocks.Web.Models
 {
     public class ErrorViewModel
     {

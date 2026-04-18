@@ -1,4 +1,4 @@
-﻿namespace StocksApp.UI
+﻿namespace Stocks.Web
 {
     /// <summary>
     /// Represents Options pattern for "StockPrice" configuration
