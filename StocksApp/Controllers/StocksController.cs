@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using StocksApp.ServiceContracts;
+using StocksApp.ServiceContracts.FinnhubService;
 using StocksApp.UI.Models;
 
 namespace StocksApp.UI.Controllers
@@ -9,13 +9,13 @@ namespace StocksApp.UI.Controllers
     public class StocksController : Controller
     {
         private readonly TradingOptions _tradingOptions;
-        private readonly IFinnhubService _finnhubService;
+        private readonly IFinnhubStocksService _finnhubStocksService;
         private readonly ILogger<StocksController> _logger;
 
-        public StocksController(IOptions<TradingOptions> tradingOptions, IFinnhubService finnhubService, ILogger<StocksController> logger)
+        public StocksController(IOptions<TradingOptions> tradingOptions, IFinnhubStocksService finnhubService, ILogger<StocksController> logger)
         {
             _tradingOptions = tradingOptions.Value;
-            _finnhubService = finnhubService;
+            _finnhubStocksService = finnhubService;
             _logger = logger;
         }
         [Route("/")]
@@ -27,7 +27,7 @@ namespace StocksApp.UI.Controllers
             _logger.LogDebug("stock: {stock}, showAll: {showAll}", stock, showAll);
 
             //get company profile from API server
-            List<Dictionary<string, string>>? stocksDictionary = await _finnhubService.GetStocks();
+            List<Dictionary<string, string>>? stocksDictionary = await _finnhubStocksService.GetStocks();
 
             List<Stock> stocks = new List<Stock>();
 

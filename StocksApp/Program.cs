@@ -3,8 +3,10 @@ using Serilog;
 using StockApp.Repositories;
 using StockApp.RepositoryContracts;
 using StocksApp.Entities;
-using StocksApp.ServiceContracts;
-using StocksApp.Services;
+using StocksApp.ServiceContracts.FinnhubService;
+using StocksApp.ServiceContracts.StocksService;
+using StocksApp.Services.FinnhubService;
+using StocksApp.Services.StocksService;
 using StocksApp.UI;
 using StocksApp.UI.Middleware;
 
@@ -21,8 +23,12 @@ builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services, 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<TradingOptions>(builder.Configuration.GetSection("TradingOptions"));
-builder.Services.AddTransient<IFinnhubService, FinnhubService>();
-builder.Services.AddTransient<IStocksService, StocksService>();
+builder.Services.AddTransient<IBuyOrderService, StocksBuyOrdersService>();
+builder.Services.AddTransient<ISellOrderService, StocksSellOrdersService>();
+builder.Services.AddTransient<IFinnhubCompanyProfileService, FinnhubCompanyProfileService>();
+builder.Services.AddTransient<IFinnhubStockPriceQuoteService, FinnhubStockPriceQuoteService>();
+builder.Services.AddTransient<IFinnhubStocksService, FinnhubStocksService>();
+builder.Services.AddTransient<IFinnhubSearchStocksService, FinnhubSearchStocksService>();
 builder.Services.AddTransient<IStocksRepository, StocksRepository>();
 builder.Services.AddTransient<IFinnhubRepository, FinnhubRepository>();
 

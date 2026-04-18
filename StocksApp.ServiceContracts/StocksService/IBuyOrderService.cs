@@ -1,0 +1,10 @@
+﻿using StocksApp.ServiceContracts.DTO;
+
+namespace StocksApp.ServiceContracts.StocksService
+{
+    public interface IBuyOrderService
+    {
+        Task<BuyOrderResponse> CreateBuyOrder(BuyOrderRequest? buyOrderRequest);
+        Task<List<BuyOrderResponse>> GetBuyOrders();
+    }
+}
