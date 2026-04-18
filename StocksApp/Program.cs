@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using StockApp.Repositories;
-using StockApp.RepositoryContracts;
-using StocksApp.Entities;
-using StocksApp.ServiceContracts.FinnhubService;
-using StocksApp.ServiceContracts.StocksService;
-using StocksApp.Services.FinnhubService;
-using StocksApp.Services.StocksService;
-using StocksApp.UI;
-using StocksApp.UI.Middleware;
+using Stocks.Core.RepositoryContracts;
+using Stocks.Core.ServiceContracts.FinnhubService;
+using Stocks.Core.ServiceContracts.StocksService;
+using Stocks.Core.Services.FinnhubService;
+using Stocks.Core.Services.StocksService;
+using Stocks.Infrastructure;
+using Stocks.Infrastructure.Repositories;
+using Stocks.Web;
+using Stocks.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 

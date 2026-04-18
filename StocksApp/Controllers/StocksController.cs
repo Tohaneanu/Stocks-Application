@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using StocksApp.ServiceContracts.FinnhubService;
-using StocksApp.UI.Models;
+using Stocks.Core.ServiceContracts.FinnhubService;
+using Stocks.Web.Models;
 
-namespace StocksApp.UI.Controllers
+namespace Stocks.Web.Controllers
 {
     [Route("[controller]")]
     public class StocksController : Controller

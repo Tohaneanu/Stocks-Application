@@ -1,4 +1,4 @@
-﻿namespace StocksApp.ServiceContracts.DTO
+﻿namespace Stocks.Core.DTO
 {
     public interface IOrderResponse
     {

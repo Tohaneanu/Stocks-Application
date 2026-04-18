@@ -13,9 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Entities\StocksApp.Entities.csproj" />
-    <ProjectReference Include="..\Exceptions\StocksApp.Exceptions.csproj" />
-    <ProjectReference Include="..\StockApp.RepositoryContracts\StockApp.RepositoryContracts.csproj" />
-    <ProjectReference Include="..\StocksApp.ServiceContracts\StocksApp.ServiceContracts.csproj" />
   </ItemGroup>
 
 </Project>

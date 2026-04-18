@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Rotativa.AspNetCore;
-using StocksApp.ServiceContracts.DTO;
-using StocksApp.ServiceContracts.FinnhubService;
-using StocksApp.ServiceContracts.StocksService;
-using StocksApp.UI;
-using StocksApp.UI.Filters.ActionFilters;
-using StocksApp.UI.Models;
+using Stocks.Core.DTO;
+using Stocks.Core.ServiceContracts.FinnhubService;
+using Stocks.Core.ServiceContracts.StocksService;
+using Stocks.Web.Filters.ActionFilters;
+using Stocks.Web.Models;
 
-namespace StocksApp.Controllers
+namespace Stocks.Web.Controllers
 {
     [Route("[controller]")]
     public class TradeController : Controller

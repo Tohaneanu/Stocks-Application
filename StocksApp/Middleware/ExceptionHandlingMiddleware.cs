@@ -1,7 +1,7 @@
-﻿using StocksApp.Exceptions;
-using Serilog;
+﻿using Serilog;
+using Stocks.Core.Exceptions;
 
-namespace StocksApp.UI.Middleware
+namespace Stocks.Web.Middleware
 {
     public class ExceptionHandlingMiddleware : IMiddleware
     {

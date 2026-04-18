@@ -1,0 +1,11 @@
+﻿namespace Stocks.Core.ServiceContracts.FinnhubService
+{
+    public interface IFinnhubStocksService
+    {
+        /// <summary>
+        /// Returns list of all stocks supported by an exchange (default: US)
+        /// </summary>
+        /// <returns>List of stocks</returns>
+        Task<List<Dictionary<string, string>>?> GetStocks();
+    }
+}

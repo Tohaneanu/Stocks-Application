@@ -1,4 +1,4 @@
-﻿namespace StocksApp.UI.Models
+﻿namespace Stocks.Web.Models
 {
     /// <summary>
     /// Represents the model class to supply trade details (stock id, stock name, price and quantity etc.) to the Trade/Index view

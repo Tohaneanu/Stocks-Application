@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using StocksApp.UI.Models;
+using Stocks.Web.Models;
 
-
-namespace StocksApp.UI.Controllers
+namespace Stocks.Web.Controllers
 {
     public class HomeController : Controller
     {

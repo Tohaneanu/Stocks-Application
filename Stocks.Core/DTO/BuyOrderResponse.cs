@@ -1,6 +1,6 @@
-﻿using StocksApp.Entities;
+﻿using Stocks.Core.Entities;
 
-namespace StocksApp.ServiceContracts.DTO
+namespace Stocks.Core.DTO
 {
     public class BuyOrderResponse : IOrderResponse
     {
